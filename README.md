@@ -1,0 +1,2 @@
+# dmuka.LocalStorageDB
+JavaScript Library
