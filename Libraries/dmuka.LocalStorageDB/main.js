@@ -1,0 +1,359 @@
+// Create namespace
+if (window["dmuka"] === undefined) {
+    window["dmuka"] = {};
+}
+
+dmuka.LocalStorageDB = function (parameters) {
+    var me = this;
+
+    // Declare Access Modifiers
+    var private = {
+        variable: {},
+        event: {},
+        function: {
+            getTableStorageName: function (dbName, tableName) {
+                return "dmuka.LocalStorageDB_" + dbName + "_" + tableName;
+            }
+        }
+    };
+    var public = this;
+
+    /* Check parameter rules --BEGIN */
+    // --------------------
+    if (parameters.dbName === undefined || parameters.dbName === null) {
+        throw "dbName must fill!";
+    }
+    if (parameters.dbName.indexOf("_") >= 0) {
+        throw "dbName can't have '_' char!";
+    }
+    if (parameters.dbSchema === undefined || parameters.dbSchema === null) {
+        throw "dbSchema must fill!";
+    }
+    // --------------------
+    /* Check parameter rules --END */
+
+    /* Variables --BEGIN */
+    // --------------------
+
+    private.variable.dbName = parameters.dbName;
+    /*
+        private.variable.dbSchema = {
+                // Schema :
+                //     name : {
+                //         triggers: <array:trigger>
+                //     }
+
+                // Schema - trigger :
+                //     {
+                //         type: <enum:"insert", "update", "delete">,
+                //         event: <function:(inserted, deleted) => return undefined>
+                //     }
+                tables: {},
+                // Schema :
+                //     name : <string:function code>
+                views: {}
+            };
+    */
+    private.variable.dbSchema = parameters.dbSchema;
+
+    private.variable.dbTables = {};
+    for (var tableName in private.variable.dbSchema.tables) {
+        var tableData = localStorage.getItem(private.function.getTableStorageName(private.variable.dbName, tableName));
+        if (tableData === null) {
+            tableData = [];
+        }
+        private.variable.dbTables[tableName] = tableData;
+    }
+
+    // --------------------
+    /* Variables --END */
+
+    /* Classes --BEGIN */
+    // --------------------
+
+    public.iQueryable = function (toArrayFnc) {
+        if (toArrayFnc.constructor.name === "Array") {
+            var originalArray = toArrayFnc;
+            toArrayFnc = function (fnc) {
+                return iQueryableAccessModifiers.private.function.filterByFunction(originalArray, fnc);
+            };
+        }
+
+        // Declare Access Modifiers
+        var iQueryableAccessModifiers = {
+            me: this,
+            public: this,
+            private: {
+                function: {}
+            }
+        };
+
+        iQueryableAccessModifiers.private.function.sort = function (array, propFnc) {
+            array.sort(function (aItem, bItem) {
+                var a = propFnc(aItem);
+                var b = propFnc(bItem);
+
+                if (a == null && b == null) {
+                    return 0;
+                }
+                else if (a == null && b != null) {
+                    return -1;
+                }
+                else if (a != null && b == null) {
+                    return 1;
+                }
+                else if (a.constructor.name === "Date") {
+                    var aTime = a.getTime();
+                    var bTime = b.getTime();
+                    return aTime == bTime ? 0 : aTime < bTime ? -1 : 1;
+                }
+                else {
+                    return a == b ? 0 : a < b ? -1 : 1;
+                }
+            });
+            return array;
+        };
+
+        iQueryableAccessModifiers.private.function.filterByFunction = function (array, fnc) {
+            if (fnc === undefined || fnc === null) {
+                return array;
+            }
+
+            var result = [];
+            for (var arrayItemIndex = 0; arrayItemIndex < array.length; arrayItemIndex++) {
+                var arrayItem = array[arrayItemIndex];
+                var resultFnc = fnc(arrayItem, arrayItemIndex);
+                if (resultFnc.stop === true) {
+                    break;
+                }
+                if (resultFnc.accept === true) {
+                    result.push(resultFnc.item);
+                }
+            }
+            return result;
+        };
+
+        iQueryableAccessModifiers.public.toArray = function (fnc) {
+            return toArrayFnc(fnc);
+        };
+
+        iQueryableAccessModifiers.public.select = function (fnc) {
+            return new public.iQueryable(function (parentFnc) {
+                return iQueryableAccessModifiers.private.function.filterByFunction(iQueryableAccessModifiers.public.toArray(function (row, rowIndex) {
+                    var result = {
+                        stop: false,
+                        accept: true,
+                        item: fnc(row)
+                    };
+
+                    return result;
+                }), parentFnc);
+            });
+        };
+
+        iQueryableAccessModifiers.public.where = function (fnc) {
+            return new public.iQueryable(function (parentFnc) {
+                return iQueryableAccessModifiers.private.function.filterByFunction(iQueryableAccessModifiers.public.toArray(function (row, rowIndex) {
+                    var result = {
+                        stop: false,
+                        accept: fnc(row, rowIndex),
+                        item: row
+                    };
+
+                    return result;
+                }), parentFnc);
+            });
+        };
+
+        iQueryableAccessModifiers.public.any = function (fnc) {
+            var exists = false;
+            iQueryableAccessModifiers.public.toArray(function (row, rowIndex) {
+                exists = fnc(row, rowIndex);
+
+                var result = {
+                    stop: exists,
+                    accept: false,
+                    item: row
+                };
+
+                return result;
+            });
+
+            return exists;
+        };
+
+        iQueryableAccessModifiers.public.take = function (count) {
+            return new public.iQueryable(function (parentFnc) {
+                return iQueryableAccessModifiers.private.function.filterByFunction(iQueryableAccessModifiers.public.toArray(function (row, rowIndex) {
+                    var result = {
+                        stop: rowIndex + 1 > count,
+                        accept: true,
+                        item: row
+                    };
+
+                    return result;
+                }), parentFnc);
+            });
+        };
+
+        iQueryableAccessModifiers.public.skip = function (index) {
+            return new public.iQueryable(function (parentFnc) {
+                return iQueryableAccessModifiers.private.function.filterByFunction(iQueryableAccessModifiers.public.toArray(function (row, rowIndex) {
+                    var result = {
+                        stop: false,
+                        accept: rowIndex >= index,
+                        item: row
+                    };
+
+                    return result;
+                }), parentFnc);
+            });
+        };
+
+        iQueryableAccessModifiers.public.join = function (type, joinSource, joinFnc, joinSelect) {
+            return new public.iQueryable(function (parentFnc) {
+                var source1 = iQueryableAccessModifiers.public.toArray();
+                var source2 = joinSource.toArray();
+
+                var processSource1 = null;
+                var processSource2 = null;
+                switch (type) {
+                    case "inner":
+                    case "full":
+                    case "left":
+                        processSource1 = source1;
+                        processSource2 = source2;
+                        break;
+                    case "right":
+                        processSource2 = source1;
+                        processSource1 = source2;
+                        break;
+                }
+
+                var existsProcessItems2 = [];
+                var rows = [];
+                for (var processItem1Index = 0; processItem1Index < processSource1.length; processItem1Index++) {
+                    var processItem1 = processSource1[processItem1Index];
+
+                    var existsProcessItem1 = false;
+
+                    for (var processItem2Index = 0; processItem2Index < processSource2.length; processItem2Index++) {
+                        var processItem2 = processSource2[processItem2Index];
+
+                        if (joinFnc(processItem1, processItem2) === true) {
+                            existsProcessItem1 = true;
+
+                            var source1Item = null;
+                            var source2Item = null;
+                            switch (type) {
+                                case "inner":
+                                case "full":
+                                case "left":
+                                    source1Item = processItem1;
+                                    source2Item = processItem2;
+                                    break;
+                                case "right":
+                                    source2Item = processItem1;
+                                    source1Item = processItem2;
+                                    break;
+                            }
+
+                            existsProcessItems2.push(processItem2Index);
+                            rows.push(joinSelect(source1Item, source2Item));
+                        }
+                    }
+
+                    if (existsProcessItem1 === false && type !== "inner") {
+                        var source1Item = null;
+                        var source2Item = null;
+
+                        switch (type) {
+                            case "full":
+                            case "left":
+                                source1Item = processItem1;
+                                source2Item = {};
+                                break;
+                            case "right":
+                                source2Item = processItem1;
+                                source1Item = {};
+                                break;
+                        }
+
+                        rows.push(joinSelect(source1Item, source2Item));
+                    }
+                }
+
+                if (type === "full") {
+                    for (var processItem2Index = 0; processItem2Index < processSource2.length; processItem2Index++) {
+                        var processItem2 = processSource2[processItem2Index];
+
+                        var existsProcessItem2 = false;
+                        for (var existsProcessItems2Index = 0; existsProcessItems2Index < existsProcessItems2.length; existsProcessItems2Index++) {
+                            if (existsProcessItems2[existsProcessItems2Index] === processItem2Index) {
+                                existsProcessItem2 = true;
+                                break;
+                            }
+                        }
+
+                        if (existsProcessItem2 === false) {
+                            existsProcessItems2.push(processItem2Index);
+                            rows.push(joinSelect({}, processItem2));
+                        }
+                    }
+                }
+
+                return iQueryableAccessModifiers.private.function.filterByFunction(rows, parentFnc);
+            });
+        };
+
+        iQueryableAccessModifiers.public.orderBy = function (propFnc) {
+            return new public.iQueryable(function (parentFnc) {
+                var rows = iQueryableAccessModifiers.public.toArray();
+                rows = iQueryableAccessModifiers.private.function.sort(rows, propFnc);
+
+                return iQueryableAccessModifiers.private.function.filterByFunction(rows, parentFnc);
+            });
+        };
+
+        iQueryableAccessModifiers.public.orderByDescending = function (propFnc) {
+            return new public.iQueryable(function (parentFnc) {
+                var rows = iQueryableAccessModifiers.public.toArray();
+                rows = iQueryableAccessModifiers.private.function.sort(rows, propFnc);
+                rows.reverse();
+
+                return iQueryableAccessModifiers.private.function.filterByFunction(rows, parentFnc);
+            });
+        };
+
+        iQueryableAccessModifiers.public.groupBy = function (key) {
+            return new public.iQueryable(function (parentFnc) {
+                var rows = iQueryableAccessModifiers.public.toArray();
+                var groupByRows = rows.reduce(function (rv, x) {
+                    (rv[x[key]] = rv[x[key]] || []).push(x);
+                    return rv;
+                }, {});
+
+                rows = [];
+                for (var groupByRowKey in groupByRows) {
+                    rows.push({
+                        key: groupByRowKey,
+                        value: groupByRows[groupByRowKey]
+                    });
+                }
+
+                return iQueryableAccessModifiers.private.function.filterByFunction(rows, parentFnc);
+            });
+        };
+    }
+
+    // --------------------
+    /* Classes --END */
+
+    /* Functions --BEGIN */
+    // --------------------
+
+    
+
+    // --------------------
+    /* Functions --END */
+};
