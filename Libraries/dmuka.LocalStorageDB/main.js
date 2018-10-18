@@ -14,12 +14,12 @@ dmuka.LocalStorageDB = function (parameters) {
             getTableStorageName: function (dbName, tableName) {
                 return "dmuka.LocalStorageDB_" + dbName + "_" + tableName;
             }
-        }
+        },
+        class: {}
     };
     var public = this;
 
     /* Check parameter rules --BEGIN */
-    // --------------------
     if (parameters.dbName === undefined || parameters.dbName === null) {
         throw "dbName must fill!";
     }
@@ -29,11 +29,9 @@ dmuka.LocalStorageDB = function (parameters) {
     if (parameters.dbSchema === undefined || parameters.dbSchema === null) {
         throw "dbSchema must fill!";
     }
-    // --------------------
     /* Check parameter rules --END */
 
     /* Variables --BEGIN */
-    // --------------------
 
     private.variable.dbName = parameters.dbName;
     /*
@@ -63,15 +61,33 @@ dmuka.LocalStorageDB = function (parameters) {
             tableData = [];
         }
         private.variable.dbTables[tableName] = tableData;
+        (function(tableName, tableData) {
+            public[tableName] = {
+                get: function() {
+                    return new private.class.iQueryable(tableData);
+                },
+                insert: function(row) {
+                    tableData.push(row);
+                },
+                delete: function(fnc) {
+                    for(var rowIndex = 0; rowIndex < tableData.length; rowIndex++) {
+                        if(fnc(tableData[rowIndex]) === true){
+                            tableData.splice(rowIndex, 1);
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+            };
+        })(tableName, tableData);
     }
 
-    // --------------------
     /* Variables --END */
 
     /* Classes --BEGIN */
-    // --------------------
 
-    public.iQueryable = function (toArrayFnc) {
+    private.class.iQueryable = function (toArrayFnc) {
         if (toArrayFnc.constructor.name === "Array") {
             var originalArray = toArrayFnc;
             toArrayFnc = function (fnc) {
@@ -138,7 +154,7 @@ dmuka.LocalStorageDB = function (parameters) {
         };
 
         iQueryableAccessModifiers.public.select = function (fnc) {
-            return new public.iQueryable(function (parentFnc) {
+            return new private.class.iQueryable(function (parentFnc) {
                 return iQueryableAccessModifiers.private.function.filterByFunction(iQueryableAccessModifiers.public.toArray(function (row, rowIndex) {
                     var result = {
                         stop: false,
@@ -152,7 +168,7 @@ dmuka.LocalStorageDB = function (parameters) {
         };
 
         iQueryableAccessModifiers.public.where = function (fnc) {
-            return new public.iQueryable(function (parentFnc) {
+            return new private.class.iQueryable(function (parentFnc) {
                 return iQueryableAccessModifiers.private.function.filterByFunction(iQueryableAccessModifiers.public.toArray(function (row, rowIndex) {
                     var result = {
                         stop: false,
@@ -183,7 +199,7 @@ dmuka.LocalStorageDB = function (parameters) {
         };
 
         iQueryableAccessModifiers.public.take = function (count) {
-            return new public.iQueryable(function (parentFnc) {
+            return new private.class.iQueryable(function (parentFnc) {
                 return iQueryableAccessModifiers.private.function.filterByFunction(iQueryableAccessModifiers.public.toArray(function (row, rowIndex) {
                     var result = {
                         stop: rowIndex + 1 > count,
@@ -197,7 +213,7 @@ dmuka.LocalStorageDB = function (parameters) {
         };
 
         iQueryableAccessModifiers.public.skip = function (index) {
-            return new public.iQueryable(function (parentFnc) {
+            return new private.class.iQueryable(function (parentFnc) {
                 return iQueryableAccessModifiers.private.function.filterByFunction(iQueryableAccessModifiers.public.toArray(function (row, rowIndex) {
                     var result = {
                         stop: false,
@@ -210,8 +226,8 @@ dmuka.LocalStorageDB = function (parameters) {
             });
         };
 
-        iQueryableAccessModifiers.public.join = function (type, joinSource, joinFnc, joinSelect) {
-            return new public.iQueryable(function (parentFnc) {
+        iQueryableAccessModifiers.private.function.join = function (type, joinSource, joinFnc, joinSelect) {
+            return new private.class.iQueryable(function (parentFnc) {
                 var source1 = iQueryableAccessModifiers.public.toArray();
                 var source2 = joinSource.toArray();
 
@@ -306,8 +322,24 @@ dmuka.LocalStorageDB = function (parameters) {
             });
         };
 
+        iQueryableAccessModifiers.public.innerJoin = function (joinSource, joinFnc, joinSelect) {
+            return iQueryableAccessModifiers.private.function.join("inner", joinSource, joinFnc, joinSelect);
+        };
+
+        iQueryableAccessModifiers.public.leftJoin = function (joinSource, joinFnc, joinSelect) {
+            return iQueryableAccessModifiers.private.function.join("left", joinSource, joinFnc, joinSelect);
+        };
+
+        iQueryableAccessModifiers.public.rightJoin = function (joinSource, joinFnc, joinSelect) {
+            return iQueryableAccessModifiers.private.function.join("right", joinSource, joinFnc, joinSelect);
+        };
+
+        iQueryableAccessModifiers.public.fullJoin = function (joinSource, joinFnc, joinSelect) {
+            return iQueryableAccessModifiers.private.function.join("full", joinSource, joinFnc, joinSelect);
+        };
+
         iQueryableAccessModifiers.public.orderBy = function (propFnc) {
-            return new public.iQueryable(function (parentFnc) {
+            return new private.class.iQueryable(function (parentFnc) {
                 var rows = iQueryableAccessModifiers.public.toArray();
                 rows = iQueryableAccessModifiers.private.function.sort(rows, propFnc);
 
@@ -316,7 +348,7 @@ dmuka.LocalStorageDB = function (parameters) {
         };
 
         iQueryableAccessModifiers.public.orderByDescending = function (propFnc) {
-            return new public.iQueryable(function (parentFnc) {
+            return new private.class.iQueryable(function (parentFnc) {
                 var rows = iQueryableAccessModifiers.public.toArray();
                 rows = iQueryableAccessModifiers.private.function.sort(rows, propFnc);
                 rows.reverse();
@@ -326,7 +358,7 @@ dmuka.LocalStorageDB = function (parameters) {
         };
 
         iQueryableAccessModifiers.public.groupBy = function (key) {
-            return new public.iQueryable(function (parentFnc) {
+            return new private.class.iQueryable(function (parentFnc) {
                 var rows = iQueryableAccessModifiers.public.toArray();
                 var groupByRows = rows.reduce(function (rv, x) {
                     (rv[x[key]] = rv[x[key]] || []).push(x);
@@ -346,14 +378,5 @@ dmuka.LocalStorageDB = function (parameters) {
         };
     }
 
-    // --------------------
     /* Classes --END */
-
-    /* Functions --BEGIN */
-    // --------------------
-
-    
-
-    // --------------------
-    /* Functions --END */
 };
