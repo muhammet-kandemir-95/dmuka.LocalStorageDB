@@ -36,19 +36,11 @@ dmuka.LocalStorageDB = function (parameters) {
     private.variable.dbName = parameters.dbName;
     /*
         private.variable.dbSchema = {
+                tables: {
+                    name: [] --default data
+                },
                 // Schema :
-                //     name : {
-                //         triggers: <array:trigger>
-                //     }
-
-                // Schema - trigger :
-                //     {
-                //         type: <enum:"insert", "update", "delete">,
-                //         event: <function:(inserted, deleted) => return undefined>
-                //     }
-                tables: {},
-                // Schema :
-                //     name : <string:function code>
+                //     name : <function(db)>
                 views: {}
             };
     */
@@ -56,31 +48,59 @@ dmuka.LocalStorageDB = function (parameters) {
 
     private.variable.dbTables = {};
     for (var tableName in private.variable.dbSchema.tables) {
-        var tableData = localStorage.getItem(private.function.getTableStorageName(private.variable.dbName, tableName));
+        var tableData = JSON.parse(localStorage.getItem(private.function.getTableStorageName(private.variable.dbName, tableName)));
         if (tableData === null) {
-            tableData = [];
+            tableData = private.variable.dbSchema.tables[tableName];
         }
         private.variable.dbTables[tableName] = tableData;
-        (function(tableName, tableData) {
+        (function (tableName, tableData) {
             public[tableName] = {
-                get: function() {
+                get: function () {
                     return new private.class.iQueryable(tableData);
                 },
-                insert: function(row) {
+                insert: function (row) {
                     tableData.push(row);
                 },
-                delete: function(fnc) {
-                    for(var rowIndex = 0; rowIndex < tableData.length; rowIndex++) {
-                        if(fnc(tableData[rowIndex]) === true){
+                insertRange: function (rows) {
+                    for(var rowIndex = 0;rowIndex < rows.length; rowIndex++){
+                        tableData.push(rows[rowIndex]);
+                    }
+                },
+                delete: function (fnc) {
+                    for (var rowIndex = 0; rowIndex < tableData.length; rowIndex++) {
+                        if (fnc(tableData[rowIndex]) === true) {
                             tableData.splice(rowIndex, 1);
                             return true;
                         }
                     }
 
                     return false;
+                },
+                deleteRange: function (fnc) {
+                    for (var rowIndex = 0; rowIndex < tableData.length; rowIndex++) {
+                        if (fnc(tableData[rowIndex]) === true) {
+                            tableData.splice(rowIndex, 1);
+                            rowIndex--;
+                        }
+                    }
+                },
+                saveChanges: function () {
+                    localStorage.setItem(private.function.getTableStorageName(private.variable.dbName, tableName), JSON.stringify(tableData));
                 }
             };
         })(tableName, tableData);
+    }
+
+    for (var viewName in private.variable.dbSchema.views) {
+        var view = private.variable.dbSchema.views[viewName];
+
+        (function (view) {
+            public[viewName] = {
+                get: function () {
+                    return view(me);
+                }
+            };
+        })(view);
     }
 
     /* Variables --END */
@@ -210,6 +230,10 @@ dmuka.LocalStorageDB = function (parameters) {
                     return result;
                 }), parentFnc);
             });
+        };
+
+        iQueryableAccessModifiers.public.firstOrDefault = function () {
+            return iQueryableAccessModifiers.public.take(1).toArray()[0];
         };
 
         iQueryableAccessModifiers.public.skip = function (index) {
