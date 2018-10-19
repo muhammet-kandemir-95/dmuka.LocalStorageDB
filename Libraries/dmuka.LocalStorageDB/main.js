@@ -444,7 +444,6 @@ dmuka.LocalStorageDB = function (parameters) {
     public.clearAllTable = function(){
         for (var tableName in private.variable.dbSchema.tables) {
             public[tableName].clear();
-            public[tableName].saveChanges();
         }
     }
 
