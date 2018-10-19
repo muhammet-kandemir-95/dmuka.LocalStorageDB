@@ -481,7 +481,7 @@ dmuka.LocalStorageDB = function (parameters) {
                     for(var argumentIndex = 0; argumentIndex < arguments.length; argumentIndex++){
                         fncParameters.push(arguments[argumentIndex]);
                     }
-                    return fnc.call(null, fncParameters);
+                    return fnc.apply(null, fncParameters);
                 }
             };
         })(fnc, functionName);
