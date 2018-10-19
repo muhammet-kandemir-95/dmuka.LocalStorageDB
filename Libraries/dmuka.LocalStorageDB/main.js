@@ -462,10 +462,8 @@ dmuka.LocalStorageDB = function (parameters) {
         var view = private.variable.dbSchema.views[viewName];
 
         (function (view, viewName) {
-            public[viewName] = {
-                query: function () {
-                    return view(me);
-                }
+            public[viewName] = function () {
+                return view(me);
             };
         })(view, viewName);
     }
@@ -475,14 +473,12 @@ dmuka.LocalStorageDB = function (parameters) {
         var fnc = private.variable.dbSchema.functions[functionName];
 
         (function (fnc, functionName) {
-            public[functionName] = {
-                query: function () {
-                    var fncParameters = [me];
-                    for(var argumentIndex = 0; argumentIndex < arguments.length; argumentIndex++){
-                        fncParameters.push(arguments[argumentIndex]);
-                    }
-                    return fnc.apply(null, fncParameters);
+            public[functionName] = function () {
+                var fncParameters = [me];
+                for(var argumentIndex = 0; argumentIndex < arguments.length; argumentIndex++){
+                    fncParameters.push(arguments[argumentIndex]);
                 }
+                return fnc.apply(null, fncParameters);
             };
         })(fnc, functionName);
     }
