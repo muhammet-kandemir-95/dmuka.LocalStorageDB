@@ -33,7 +33,9 @@ dmuka.LocalStorageDB = function (parameters) {
 
     /* Classes --BEGIN */
 
+    // Declare IQueryable class
     private.class.iQueryable = function (toArrayFnc) {
+        // If parameter is array then we should change to function
         if (toArrayFnc.constructor.name === "Array") {
             var originalArray = toArrayFnc;
             toArrayFnc = function (fnc) {
@@ -50,6 +52,9 @@ dmuka.LocalStorageDB = function (parameters) {
             }
         };
 
+        // Sort function
+        // array is Array object
+        // prop function example : o => o.name
         iQueryableAccessModifiers.private.function.sort = function (array, propFnc) {
             array.sort(function (aItem, bItem) {
                 var a = propFnc(aItem);
@@ -76,6 +81,10 @@ dmuka.LocalStorageDB = function (parameters) {
             return array;
         };
 
+        // Filter Array function
+        // This function actually is a filter
+        // array is Array object
+        // fnc function example : o => o.name === "Muhammed" another example : o => o.name.indexOf("k") >= 0
         iQueryableAccessModifiers.private.function.filterByFunction = function (array, fnc) {
             if (fnc === undefined || fnc === null) {
                 return array;
@@ -95,10 +104,15 @@ dmuka.LocalStorageDB = function (parameters) {
             return result;
         };
 
+        // Return result
+        // Only this function can to this
+        // Another function in the class only can return iQuerylable and can not return Array
         iQueryableAccessModifiers.public.toArray = function (fnc) {
             return toArrayFnc(fnc);
         };
 
+        // Select function
+        // fnc example => function(o) { return { Name: o.name, Id: o.id } }
         iQueryableAccessModifiers.public.select = function (fnc) {
             return new private.class.iQueryable(function (parentFnc) {
                 return iQueryableAccessModifiers.private.function.filterByFunction(iQueryableAccessModifiers.public.toArray(function (row, rowIndex) {
@@ -113,6 +127,9 @@ dmuka.LocalStorageDB = function (parameters) {
             });
         };
 
+        // Where function
+        // This function is like filterByFunction, but have different algorithm
+        // fnc function example : o => o.name === "Muhammed" another example : o => o.name.indexOf("k") >= 0
         iQueryableAccessModifiers.public.where = function (fnc) {
             return new private.class.iQueryable(function (parentFnc) {
                 return iQueryableAccessModifiers.private.function.filterByFunction(iQueryableAccessModifiers.public.toArray(function (row, rowIndex) {
@@ -127,6 +144,9 @@ dmuka.LocalStorageDB = function (parameters) {
             });
         };
 
+        // Any function
+        // This function is same filterByFunction, but if found any row then exit loop. So this function have performance than where
+        // fnc function example : o => o.name === "Muhammed" another example : o => o.name.indexOf("k") >= 0
         iQueryableAccessModifiers.public.any = function (fnc) {
             var exists = false;
             iQueryableAccessModifiers.public.toArray(function (row, rowIndex) {
@@ -144,6 +164,8 @@ dmuka.LocalStorageDB = function (parameters) {
             return exists;
         };
 
+        // Take function
+        // count is row count
         iQueryableAccessModifiers.public.take = function (count) {
             return new private.class.iQueryable(function (parentFnc) {
                 return iQueryableAccessModifiers.private.function.filterByFunction(iQueryableAccessModifiers.public.toArray(function (row, rowIndex) {
@@ -158,10 +180,13 @@ dmuka.LocalStorageDB = function (parameters) {
             });
         };
 
+        // FirstOrDefault function
+        // Only take 1 row and return object
         iQueryableAccessModifiers.public.firstOrDefault = function () {
             return iQueryableAccessModifiers.public.take(1).toArray()[0];
         };
 
+        // Skip function
         iQueryableAccessModifiers.public.skip = function (index) {
             return new private.class.iQueryable(function (parentFnc) {
                 return iQueryableAccessModifiers.private.function.filterByFunction(iQueryableAccessModifiers.public.toArray(function (row, rowIndex) {
@@ -176,6 +201,13 @@ dmuka.LocalStorageDB = function (parameters) {
             });
         };
 
+        // Join function
+        // This function can join(inner, left, right, full)
+        // type is enum -> "inner", "left", "right", "full"
+        // joinSource another iQueryable, it don't have to be table, maybe iQueryable that may have where, order, etc..
+        // joinSource example : db.users.join("inner", db.users.where(o => o.name === "Muhammed"), ...)  
+        // joinFnc join prop codes. Example : (table1, table2) => table1.name === table2.name
+        // joinSelect iw what select do you want? Example :  function(table1, table2) { return { table1Name: table1.name, table2Id : table2.Id } }
         iQueryableAccessModifiers.private.function.join = function (type, joinSource, joinFnc, joinSelect) {
             return new private.class.iQueryable(function (parentFnc) {
                 var source1 = iQueryableAccessModifiers.public.toArray();
@@ -288,6 +320,8 @@ dmuka.LocalStorageDB = function (parameters) {
             return iQueryableAccessModifiers.private.function.join("full", joinSource, joinFnc, joinSelect);
         };
 
+        // Order By function
+        // prop function example : o => o.name
         iQueryableAccessModifiers.public.orderBy = function (propFnc) {
             return new private.class.iQueryable(function (parentFnc) {
                 var rows = iQueryableAccessModifiers.public.toArray();
@@ -297,6 +331,8 @@ dmuka.LocalStorageDB = function (parameters) {
             });
         };
 
+        // Order By Descending function
+        // prop function example : o => o.name
         iQueryableAccessModifiers.public.orderByDescending = function (propFnc) {
             return new private.class.iQueryable(function (parentFnc) {
                 var rows = iQueryableAccessModifiers.public.toArray();
@@ -307,6 +343,8 @@ dmuka.LocalStorageDB = function (parameters) {
             });
         };
 
+        // Group By function
+        // prop function example : o => o.name
         iQueryableAccessModifiers.public.groupBy = function (propFnc) {
             return new private.class.iQueryable(function (parentFnc) {
                 var rows = iQueryableAccessModifiers.public.toArray();
@@ -345,6 +383,7 @@ dmuka.LocalStorageDB = function (parameters) {
     */
     private.variable.dbSchema = parameters.dbSchema;
 
+    // Declare all tables and read datas from localstorage or from default value
     private.variable.dbTables = {};
     for (var tableName in private.variable.dbSchema.tables) {
         var tableData = JSON.parse(localStorage.getItem(private.function.getTableStorageName(private.variable.dbName, tableName)));
@@ -354,14 +393,20 @@ dmuka.LocalStorageDB = function (parameters) {
         private.variable.dbTables[tableName] = tableData;
         (function (tableName, tableData) {
             public[tableName] = new private.class.iQueryable(tableData);
+
+            // Added insert function for a row
             public[tableName].insert = function (row) {
                 tableData.push(row);
             };
+
+            // Added insert function for much row
             public[tableName].insertRange = function (row) {
                 for(var rowIndex = 0;rowIndex < rows.length; rowIndex++){
                     tableData.push(rows[rowIndex]);
                 }
             };
+
+            // Added delete function for a row
             public[tableName].delete = function (fnc) {
                 for (var rowIndex = 0; rowIndex < tableData.length; rowIndex++) {
                     if (fnc(tableData[rowIndex]) === true) {
@@ -372,6 +417,8 @@ dmuka.LocalStorageDB = function (parameters) {
 
                 return false;
             };
+
+            // Added delete function for much row
             public[tableName].deleteRange = function (fnc) {
                 for (var rowIndex = 0; rowIndex < tableData.length; rowIndex++) {
                     if (fnc(tableData[rowIndex]) === true) {
@@ -380,12 +427,20 @@ dmuka.LocalStorageDB = function (parameters) {
                     }
                 }
             };
+
+            // Added clear function for clear all datas
+            public[tableName].clear = function () {
+                tableData.splice(0, tableData.length);
+            };
+
+            // Added save function for update localstorage only for this table
             public[tableName].saveChanges = function () {
                 localStorage.setItem(private.function.getTableStorageName(private.variable.dbName, tableName), JSON.stringify(tableData));
             };
         })(tableName, tableData);
     }
 
+    // Added views
     for (var viewName in private.variable.dbSchema.views) {
         var view = private.variable.dbSchema.views[viewName];
 
