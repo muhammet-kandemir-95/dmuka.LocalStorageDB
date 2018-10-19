@@ -440,6 +440,21 @@ dmuka.LocalStorageDB = function (parameters) {
         })(tableName, tableData);
     }
 
+    // This function call clear function for all table
+    public.clearAllTable = function(){
+        for (var tableName in private.variable.dbSchema.tables) {
+            public[tableName].clear();
+            public[tableName].saveChanges();
+        }
+    }
+
+    // This function call saveChanges function for all table
+    public.saveChangesAllTable = function(){
+        for (var tableName in private.variable.dbSchema.tables) {
+            public[tableName].saveChanges();
+        }
+    }
+
     // Added views
     for (var viewName in private.variable.dbSchema.views) {
         var view = private.variable.dbSchema.views[viewName];
