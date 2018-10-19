@@ -378,7 +378,10 @@ dmuka.LocalStorageDB = function (parameters) {
                 },
                 // Schema :
                 //     name : <function(db)>
-                views: {}
+                views: {},
+                // Schema :
+                //     name : <function(db, parameters...)>
+                functions: {}
             };
     */
     private.variable.dbSchema = parameters.dbSchema;
@@ -388,7 +391,7 @@ dmuka.LocalStorageDB = function (parameters) {
     for (var tableName in private.variable.dbSchema.tables) {
         var tableData = JSON.parse(localStorage.getItem(private.function.getTableStorageName(private.variable.dbName, tableName)));
         if (tableData === null) {
-            tableData = private.variable.dbSchema.tables[tableName];
+            tableData = private.variable.dbSchema.tables[tableName](me);
         }
         private.variable.dbTables[tableName] = tableData;
         (function (tableName, tableData) {
@@ -458,13 +461,30 @@ dmuka.LocalStorageDB = function (parameters) {
     for (var viewName in private.variable.dbSchema.views) {
         var view = private.variable.dbSchema.views[viewName];
 
-        (function (view) {
+        (function (view, viewName) {
             public[viewName] = {
                 query: function () {
                     return view(me);
                 }
             };
-        })(view);
+        })(view, viewName);
+    }
+
+    // Added functions
+    for (var functionName in private.variable.dbSchema.functions) {
+        var fnc = private.variable.dbSchema.functions[functionName];
+
+        (function (fnc, functionName) {
+            public[functionName] = {
+                query: function () {
+                    var fncParameters = [me];
+                    for(var argumentIndex = 0; argumentIndex < arguments.length; argumentIndex++){
+                        fncParameters.push(arguments[argumentIndex]);
+                    }
+                    return fnc.call(null, fncParameters);
+                }
+            };
+        })(fnc, functionName);
     }
 
     /* Variables --END */
