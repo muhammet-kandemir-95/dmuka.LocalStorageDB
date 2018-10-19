@@ -31,80 +31,6 @@ dmuka.LocalStorageDB = function (parameters) {
     }
     /* Check parameter rules --END */
 
-    /* Variables --BEGIN */
-
-    private.variable.dbName = parameters.dbName;
-    /*
-        private.variable.dbSchema = {
-                tables: {
-                    name: [] --default data
-                },
-                // Schema :
-                //     name : <function(db)>
-                views: {}
-            };
-    */
-    private.variable.dbSchema = parameters.dbSchema;
-
-    private.variable.dbTables = {};
-    for (var tableName in private.variable.dbSchema.tables) {
-        var tableData = JSON.parse(localStorage.getItem(private.function.getTableStorageName(private.variable.dbName, tableName)));
-        if (tableData === null) {
-            tableData = private.variable.dbSchema.tables[tableName];
-        }
-        private.variable.dbTables[tableName] = tableData;
-        (function (tableName, tableData) {
-            public[tableName] = {
-                get: function () {
-                    return new private.class.iQueryable(tableData);
-                },
-                insert: function (row) {
-                    tableData.push(row);
-                },
-                insertRange: function (rows) {
-                    for(var rowIndex = 0;rowIndex < rows.length; rowIndex++){
-                        tableData.push(rows[rowIndex]);
-                    }
-                },
-                delete: function (fnc) {
-                    for (var rowIndex = 0; rowIndex < tableData.length; rowIndex++) {
-                        if (fnc(tableData[rowIndex]) === true) {
-                            tableData.splice(rowIndex, 1);
-                            return true;
-                        }
-                    }
-
-                    return false;
-                },
-                deleteRange: function (fnc) {
-                    for (var rowIndex = 0; rowIndex < tableData.length; rowIndex++) {
-                        if (fnc(tableData[rowIndex]) === true) {
-                            tableData.splice(rowIndex, 1);
-                            rowIndex--;
-                        }
-                    }
-                },
-                saveChanges: function () {
-                    localStorage.setItem(private.function.getTableStorageName(private.variable.dbName, tableName), JSON.stringify(tableData));
-                }
-            };
-        })(tableName, tableData);
-    }
-
-    for (var viewName in private.variable.dbSchema.views) {
-        var view = private.variable.dbSchema.views[viewName];
-
-        (function (view) {
-            public[viewName] = {
-                get: function () {
-                    return view(me);
-                }
-            };
-        })(view);
-    }
-
-    /* Variables --END */
-
     /* Classes --BEGIN */
 
     private.class.iQueryable = function (toArrayFnc) {
@@ -381,11 +307,11 @@ dmuka.LocalStorageDB = function (parameters) {
             });
         };
 
-        iQueryableAccessModifiers.public.groupBy = function (key) {
+        iQueryableAccessModifiers.public.groupBy = function (propFnc) {
             return new private.class.iQueryable(function (parentFnc) {
                 var rows = iQueryableAccessModifiers.public.toArray();
                 var groupByRows = rows.reduce(function (rv, x) {
-                    (rv[x[key]] = rv[x[key]] || []).push(x);
+                    (rv[propFnc(x)] = rv[propFnc(x)] || []).push(x);
                     return rv;
                 }, {});
 
@@ -403,4 +329,74 @@ dmuka.LocalStorageDB = function (parameters) {
     }
 
     /* Classes --END */
+
+    /* Variables --BEGIN */
+
+    private.variable.dbName = parameters.dbName;
+    /*
+        private.variable.dbSchema = {
+                tables: {
+                    name: [] --default data
+                },
+                // Schema :
+                //     name : <function(db)>
+                views: {}
+            };
+    */
+    private.variable.dbSchema = parameters.dbSchema;
+
+    private.variable.dbTables = {};
+    for (var tableName in private.variable.dbSchema.tables) {
+        var tableData = JSON.parse(localStorage.getItem(private.function.getTableStorageName(private.variable.dbName, tableName)));
+        if (tableData === null) {
+            tableData = private.variable.dbSchema.tables[tableName];
+        }
+        private.variable.dbTables[tableName] = tableData;
+        (function (tableName, tableData) {
+            public[tableName] = new private.class.iQueryable(tableData);
+            public[tableName].insert = function (row) {
+                tableData.push(row);
+            };
+            public[tableName].insertRange = function (row) {
+                for(var rowIndex = 0;rowIndex < rows.length; rowIndex++){
+                    tableData.push(rows[rowIndex]);
+                }
+            };
+            public[tableName].delete = function (fnc) {
+                for (var rowIndex = 0; rowIndex < tableData.length; rowIndex++) {
+                    if (fnc(tableData[rowIndex]) === true) {
+                        tableData.splice(rowIndex, 1);
+                        return true;
+                    }
+                }
+
+                return false;
+            };
+            public[tableName].deleteRange = function (fnc) {
+                for (var rowIndex = 0; rowIndex < tableData.length; rowIndex++) {
+                    if (fnc(tableData[rowIndex]) === true) {
+                        tableData.splice(rowIndex, 1);
+                        rowIndex--;
+                    }
+                }
+            };
+            public[tableName].saveChanges = function () {
+                localStorage.setItem(private.function.getTableStorageName(private.variable.dbName, tableName), JSON.stringify(tableData));
+            };
+        })(tableName, tableData);
+    }
+
+    for (var viewName in private.variable.dbSchema.views) {
+        var view = private.variable.dbSchema.views[viewName];
+
+        (function (view) {
+            public[viewName] = {
+                query: function () {
+                    return view(me);
+                }
+            };
+        })(view);
+    }
+
+    /* Variables --END */
 };
