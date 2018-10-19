@@ -401,7 +401,7 @@ dmuka.LocalStorageDB = function (parameters) {
 
             // Added insert function for much row
             public[tableName].insertRange = function (row) {
-                for(var rowIndex = 0;rowIndex < rows.length; rowIndex++){
+                for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
                     tableData.push(rows[rowIndex]);
                 }
             };
@@ -454,4 +454,14 @@ dmuka.LocalStorageDB = function (parameters) {
     }
 
     /* Variables --END */
+
+    /* Functions --BEGIN */
+    public.guid = function() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    /* Functions --END */
 };
