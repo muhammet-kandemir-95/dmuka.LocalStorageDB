@@ -278,15 +278,28 @@ dmuka.LocalStorageDB.iQueryable = function (toArrayFnc) {
     iQueryableAccessModifiers.public.any = function (fnc) {
         var exists = false;
         iQueryableAccessModifiers.public.toArray(function (row, rowIndex) {
-            exists = fnc(row, rowIndex);
+            if (fnc === undefined) {
+                exists = true;
 
-            var result = {
-                stop: exists,
-                accept: false,
-                item: row
-            };
+                var result = {
+                    stop: exists,
+                    accept: false,
+                    item: row
+                };
 
-            return result;
+                return result;
+            }
+            else {
+                exists = fnc(row, rowIndex);
+
+                var result = {
+                    stop: exists,
+                    accept: false,
+                    item: row
+                };
+
+                return result;
+            }
         });
 
         return exists;
@@ -310,8 +323,35 @@ dmuka.LocalStorageDB.iQueryable = function (toArrayFnc) {
 
     // FirstOrDefault function
     // Only take 1 row and return object
-    iQueryableAccessModifiers.public.firstOrDefault = function () {
-        return iQueryableAccessModifiers.public.take(1).toArray()[0];
+    iQueryableAccessModifiers.public.firstOrDefault = function (fnc) {
+        if (fnc !== undefined) {
+            var stop = false;
+            return iQueryableAccessModifiers.public.toArray(function (row, rowIndex) {
+                if (stop === true) {
+                    var result = {
+                        stop: true,
+                        accept: false,
+                        item: null
+                    };
+
+                    return result;
+                }
+                else {
+                    var fncResult = fnc(row);
+                    var result = {
+                        stop: stop,
+                        accept: fncResult,
+                        item: row
+                    };
+                    stop = fncResult;
+    
+                    return result;
+                }
+            })[0];
+        }
+        else {
+            return iQueryableAccessModifiers.public.take(1).toArray()[0];
+        }
     };
 
     // Skip function

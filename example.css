@@ -1,0 +1,33 @@
+h1 {
+    background-color: #d8d8d8 !important;
+    text-align: center;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    margin: 0px;
+}
+
+body, * {
+    background-color: whitesmoke !important;
+    font-family: arial;
+    padding: 0px;
+    margin: 0px;
+}
+
+pre#json-result {
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+textarea#query {
+    width: 100% !important;
+    font-size: 20px;
+    box-sizing: border-box;
+    padding: 10px;
+    height: 235px;
+}
+
+button#execute {
+    font-size: 22px;
+    margin-top: 10px;
+    width: 100%;
+}

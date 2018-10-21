@@ -1,0 +1,37 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        dmuka.LocalStorageDB - Muhammet Kandemir
+    </title>
+    <link rel="stylesheet" type="text/css" href="example.css">
+</head>
+
+<body>
+    <h1>
+        Welcome dmuka.LocalStorageDB Documentation
+    </h1>
+
+    <textarea id="query" onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}">
+db.users
+  .orderBy(user => user.surname)
+  .select(user => user.surname)
+  .toArray()
+    </textarea>
+    <button id="execute">Execute</button>
+
+    <pre id="json-result"></pre>
+
+    <script src="Libraries/dmuka.LocalStorageDB/main.js"></script>
+    <script src="exampleDB.js"></script>
+    <script>
+        function execute() {
+            document.querySelector("#json-result").innerHTML = JSON.stringify(new Function("return " + document.querySelector("#query").value + ";")(), null, 4);
+        }
+        document.querySelector("#execute").addEventListener("click", execute);
+        execute();
+    </script>
+</body>
+
+</html>
