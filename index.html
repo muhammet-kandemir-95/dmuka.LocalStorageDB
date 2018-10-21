@@ -2,6 +2,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
     <title>
         dmuka.LocalStorageDB - Muhammet Kandemir
     </title>
@@ -27,6 +28,7 @@
             margin: 0px;
             padding-bottom: 10px;
             padding-top: 10px;
+            padding-left: 10px;
         }
 
         ol {
@@ -37,6 +39,7 @@
         pre {
             background-color: whitesmoke !important;
             margin: 0px;
+            padding-left: 10px;
         }
 
         pre * {
@@ -114,71 +117,74 @@
     <h2>
         DB Codes
     </h2>
-    <pre style="color:#000000;background:#ffffff;"><span style="color:#800000; font-weight:bold; ">var</span> defaultRows <span style="color:#808030; ">=</span> <span style="color:#800080; ">{</span>
-        users<span style="color:#800080; ">:</span> <span style="color:#808030; ">[</span>
-            <span style="color:#800080; ">{</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">b4e365c0-b008-40e0-bb51-18495484a67c</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> name<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Muhammed</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> surname<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Kandemir</span><span style="color:#800000; ">"</span> <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
-            <span style="color:#800080; ">{</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">f85017cd-db46-4b9d-8625-ed73bb4f90a1</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> name<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Baran</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> surname<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Altay</span><span style="color:#800000; ">"</span> <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
-            <span style="color:#800080; ">{</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">315d5812-cb91-45d4-9516-47ba624a842e</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> name<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Özkan</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> surname<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Doğu</span><span style="color:#800000; ">"</span> <span style="color:#800080; ">}</span>
-        <span style="color:#808030; ">]</span><span style="color:#808030; ">,</span>
-        user_addresses<span style="color:#800080; ">:</span> <span style="color:#808030; ">[</span>
-            <span style="color:#800080; ">{</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">5868bd41-9d55-4f76-a51f-73eb625ca72d</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">b4e365c0-b008-40e0-bb51-18495484a67c</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> address<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Address 1</span><span style="color:#800000; ">"</span> <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
-            <span style="color:#800080; ">{</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">48254515-e1ac-4a7f-bc27-b341414ed765</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">b4e365c0-b008-40e0-bb51-18495484a67c</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> address<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Address 2</span><span style="color:#800000; ">"</span> <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
-            <span style="color:#800080; ">{</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">ddbb1945-605e-41bc-8d14-99a4dba8a9fb</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">b4e365c0-b008-40e0-bb51-18495484a67c</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> address<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Address 3</span><span style="color:#800000; ">"</span> <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
-            <span style="color:#800080; ">{</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">3a230d15-3326-4b89-9192-41b4169f343b</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">f85017cd-db46-4b9d-8625-ed73bb4f90a1</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> address<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Address 4</span><span style="color:#800000; ">"</span> <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
-            <span style="color:#800080; ">{</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">a9e075c9-9c04-4bb7-9337-173ae0f1e2ce</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">f85017cd-db46-4b9d-8625-ed73bb4f90a1</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> address<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Address 5</span><span style="color:#800000; ">"</span> <span style="color:#800080; ">}</span>
-        <span style="color:#808030; ">]</span>
-    <span style="color:#800080; ">}</span><span style="color:#800080; ">;</span>
-    <span style="color:#800000; font-weight:bold; ">var</span> db <span style="color:#808030; ">=</span> <span style="color:#800000; font-weight:bold; ">new</span> dmuka<span style="color:#808030; ">.</span>LocalStorageDB<span style="color:#808030; ">(</span><span style="color:#800080; ">{</span>
-        dbName<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">MuhammedDB</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span>
-        dbSchema<span style="color:#800080; ">:</span> <span style="color:#800080; ">{</span>
-            tables<span style="color:#800080; ">:</span> <span style="color:#800080; ">{</span>
-                <span style="color:#696969; ">/*</span>
-    <span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</span>
-    <span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_id: guid,</span>
-    <span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: string,</span>
-    <span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;surname: string</span>
-    <span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span>
-    <span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>
-                users<span style="color:#800080; ">:</span> <span style="color:#800000; font-weight:bold; ">function</span> <span style="color:#808030; ">(</span>db<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
-                    <span style="color:#800000; font-weight:bold; ">return</span> defaultRows<span style="color:#808030; ">.</span>users<span style="color:#800080; ">;</span>
-                <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
-                <span style="color:#696969; ">/*</span>
-    <span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</span>
-    <span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_address_id: guid,</span>
-    <span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_id: guid,</span>
-    <span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;address: string</span>
-    <span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span>
-    <span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>
-                user_addresses<span style="color:#800080; ">:</span> <span style="color:#800000; font-weight:bold; ">function</span> <span style="color:#808030; ">(</span>db<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
-                    <span style="color:#800000; font-weight:bold; ">return</span> defaultRows<span style="color:#808030; ">.</span>user_addresses<span style="color:#800080; ">;</span>
-                <span style="color:#800080; ">}</span>
+    <pre style="color:#000000;background:#ffffff;">
+<span style="color:#800000; font-weight:bold; ">var</span> defaultRows <span style="color:#808030; ">=</span> <span style="color:#800080; ">{</span>
+    users<span style="color:#800080; ">:</span> <span style="color:#808030; ">[</span>
+        <span style="color:#800080; ">{</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">b4e365c0-b008-40e0-bb51-18495484a67c</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> name<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Muhammed</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> surname<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Kandemir</span><span style="color:#800000; ">"</span> <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
+        <span style="color:#800080; ">{</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">f85017cd-db46-4b9d-8625-ed73bb4f90a1</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> name<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Baran</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> surname<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Altay</span><span style="color:#800000; ">"</span> <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
+        <span style="color:#800080; ">{</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">315d5812-cb91-45d4-9516-47ba624a842e</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> name<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Özkan</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> surname<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Doğu</span><span style="color:#800000; ">"</span> <span style="color:#800080; ">}</span>
+    <span style="color:#808030; ">]</span><span style="color:#808030; ">,</span>
+    user_addresses<span style="color:#800080; ">:</span> <span style="color:#808030; ">[</span>
+        <span style="color:#800080; ">{</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">5868bd41-9d55-4f76-a51f-73eb625ca72d</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">b4e365c0-b008-40e0-bb51-18495484a67c</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> address<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Address 1</span><span style="color:#800000; ">"</span> <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
+        <span style="color:#800080; ">{</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">48254515-e1ac-4a7f-bc27-b341414ed765</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">b4e365c0-b008-40e0-bb51-18495484a67c</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> address<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Address 2</span><span style="color:#800000; ">"</span> <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
+        <span style="color:#800080; ">{</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">ddbb1945-605e-41bc-8d14-99a4dba8a9fb</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">b4e365c0-b008-40e0-bb51-18495484a67c</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> address<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Address 3</span><span style="color:#800000; ">"</span> <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
+        <span style="color:#800080; ">{</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">3a230d15-3326-4b89-9192-41b4169f343b</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">f85017cd-db46-4b9d-8625-ed73bb4f90a1</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> address<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Address 4</span><span style="color:#800000; ">"</span> <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
+        <span style="color:#800080; ">{</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">a9e075c9-9c04-4bb7-9337-173ae0f1e2ce</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> user_id<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">f85017cd-db46-4b9d-8625-ed73bb4f90a1</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> address<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">Address 5</span><span style="color:#800000; ">"</span> <span style="color:#800080; ">}</span>
+    <span style="color:#808030; ">]</span>
+<span style="color:#800080; ">}</span><span style="color:#800080; ">;</span>
+
+<span style="color:#800000; font-weight:bold; ">var</span> db <span style="color:#808030; ">=</span> <span style="color:#800000; font-weight:bold; ">new</span> dmuka<span style="color:#808030; ">.</span>LocalStorageDB<span style="color:#808030; ">(</span><span style="color:#800080; ">{</span>
+    dbName<span style="color:#800080; ">:</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">MuhammedDB</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span>
+    dbSchema<span style="color:#800080; ">:</span> <span style="color:#800080; ">{</span>
+        tables<span style="color:#800080; ">:</span> <span style="color:#800080; ">{</span>
+            <span style="color:#696969; ">/*</span>
+<span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</span>
+<span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_id: guid,</span>
+<span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: string,</span>
+<span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;surname: string</span>
+<span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+<span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>
+            users<span style="color:#800080; ">:</span> <span style="color:#800000; font-weight:bold; ">function</span> <span style="color:#808030; ">(</span>db<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
+                <span style="color:#800000; font-weight:bold; ">return</span> defaultRows<span style="color:#808030; ">.</span>users<span style="color:#800080; ">;</span>
             <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
-            views<span style="color:#800080; ">:</span> <span style="color:#800080; ">{</span>
-                view_user_address<span style="color:#800080; ">:</span> <span style="color:#800000; font-weight:bold; ">function</span> <span style="color:#808030; ">(</span>db<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
-                    <span style="color:#800000; font-weight:bold; ">return</span> db<span style="color:#808030; ">.</span>users<span style="color:#808030; ">.</span>innerJoin<span style="color:#808030; ">(</span>
-                        db<span style="color:#808030; ">.</span>user_addresses<span style="color:#808030; ">,</span>
-                        <span style="color:#808030; ">(</span>usr<span style="color:#808030; ">,</span> adr<span style="color:#808030; ">)</span> <span style="color:#808030; ">=</span><span style="color:#808030; ">&gt;</span> usr<span style="color:#808030; ">.</span>user_id <span style="color:#808030; ">===</span> adr<span style="color:#808030; ">.</span>user_id<span style="color:#808030; ">,</span>
-                        <span style="color:#800000; font-weight:bold; ">function</span> <span style="color:#808030; ">(</span>usr<span style="color:#808030; ">,</span> adr<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
-                            <span style="color:#800000; font-weight:bold; ">return</span> <span style="color:#800080; ">{</span>
-                                user_id<span style="color:#800080; ">:</span> usr<span style="color:#808030; ">.</span>user_id<span style="color:#808030; ">,</span>
-                                name<span style="color:#800080; ">:</span> usr<span style="color:#808030; ">.</span>name<span style="color:#808030; ">,</span>
-                                address<span style="color:#800080; ">:</span> adr<span style="color:#808030; ">.</span>address
-                            <span style="color:#800080; ">}</span><span style="color:#800080; ">;</span>
-                        <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
-                    <span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
-                <span style="color:#800080; ">}</span>
+            <span style="color:#696969; ">/*</span>
+<span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</span>
+<span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_address_id: guid,</span>
+<span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_id: guid,</span>
+<span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;address: string</span>
+<span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+<span style="color:#696969; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>
+            user_addresses<span style="color:#800080; ">:</span> <span style="color:#800000; font-weight:bold; ">function</span> <span style="color:#808030; ">(</span>db<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
+                <span style="color:#800000; font-weight:bold; ">return</span> defaultRows<span style="color:#808030; ">.</span>user_addresses<span style="color:#800080; ">;</span>
+            <span style="color:#800080; ">}</span>
+        <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
+        views<span style="color:#800080; ">:</span> <span style="color:#800080; ">{</span>
+            view_user_address<span style="color:#800080; ">:</span> <span style="color:#800000; font-weight:bold; ">function</span> <span style="color:#808030; ">(</span>db<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
+                <span style="color:#800000; font-weight:bold; ">return</span> db<span style="color:#808030; ">.</span>users<span style="color:#808030; ">.</span>innerJoin<span style="color:#808030; ">(</span>
+                    db<span style="color:#808030; ">.</span>user_addresses<span style="color:#808030; ">,</span>
+                    <span style="color:#808030; ">(</span>usr<span style="color:#808030; ">,</span> adr<span style="color:#808030; ">)</span> <span style="color:#808030; ">=</span><span style="color:#808030; ">&gt;</span> usr<span style="color:#808030; ">.</span>user_id <span style="color:#808030; ">===</span> adr<span style="color:#808030; ">.</span>user_id<span style="color:#808030; ">,</span>
+                    <span style="color:#800000; font-weight:bold; ">function</span> <span style="color:#808030; ">(</span>usr<span style="color:#808030; ">,</span> adr<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
+                        <span style="color:#800000; font-weight:bold; ">return</span> <span style="color:#800080; ">{</span>
+                            user_id<span style="color:#800080; ">:</span> usr<span style="color:#808030; ">.</span>user_id<span style="color:#808030; ">,</span>
+                            name<span style="color:#800080; ">:</span> usr<span style="color:#808030; ">.</span>name<span style="color:#808030; ">,</span>
+                            address<span style="color:#800080; ">:</span> adr<span style="color:#808030; ">.</span>address
+                        <span style="color:#800080; ">}</span><span style="color:#800080; ">;</span>
+                    <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
+                <span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+            <span style="color:#800080; ">}</span>
+        <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
+        functions<span style="color:#800080; ">:</span> <span style="color:#800080; ">{</span>
+            fnc_get_user_by_name<span style="color:#800080; ">:</span> <span style="color:#800000; font-weight:bold; ">function</span> <span style="color:#808030; ">(</span>db<span style="color:#808030; ">,</span> name<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
+                <span style="color:#800000; font-weight:bold; ">return</span> db<span style="color:#808030; ">.</span>users<span style="color:#808030; ">.</span>where<span style="color:#808030; ">(</span>o <span style="color:#808030; ">=</span><span style="color:#808030; ">&gt;</span> o<span style="color:#808030; ">.</span>name <span style="color:#808030; ">===</span> name<span style="color:#808030; ">)</span><span style="color:#808030; ">.</span>firstOrDefault<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
             <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
-            functions<span style="color:#800080; ">:</span> <span style="color:#800080; ">{</span>
-                fnc_get_user_by_name<span style="color:#800080; ">:</span> <span style="color:#800000; font-weight:bold; ">function</span> <span style="color:#808030; ">(</span>db<span style="color:#808030; ">,</span> name<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
-                    <span style="color:#800000; font-weight:bold; ">return</span> db<span style="color:#808030; ">.</span>users<span style="color:#808030; ">.</span>where<span style="color:#808030; ">(</span>o <span style="color:#808030; ">=</span><span style="color:#808030; ">&gt;</span> o<span style="color:#808030; ">.</span>name <span style="color:#808030; ">===</span> name<span style="color:#808030; ">)</span><span style="color:#808030; ">.</span>firstOrDefault<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
-                <span style="color:#800080; ">}</span><span style="color:#808030; ">,</span>
-                fnc_get_user_addresses_by_name<span style="color:#800080; ">:</span> <span style="color:#800000; font-weight:bold; ">function</span> <span style="color:#808030; ">(</span>db<span style="color:#808030; ">,</span> name<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
-                    <span style="color:#800000; font-weight:bold; ">return</span> db<span style="color:#808030; ">.</span>view_user_address<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#808030; ">.</span>where<span style="color:#808030; ">(</span>o <span style="color:#808030; ">=</span><span style="color:#808030; ">&gt;</span> o<span style="color:#808030; ">.</span>name <span style="color:#808030; ">===</span> name<span style="color:#808030; ">)</span><span style="color:#808030; ">.</span>select<span style="color:#808030; ">(</span>o <span style="color:#808030; ">=</span><span style="color:#808030; ">&gt;</span> o<span style="color:#808030; ">.</span>address<span style="color:#808030; ">)</span><span style="color:#808030; ">.</span><span style="color:#800000; font-weight:bold; ">toArray</span><span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
-                <span style="color:#800080; ">}</span>
+            fnc_get_user_addresses_by_name<span style="color:#800080; ">:</span> <span style="color:#800000; font-weight:bold; ">function</span> <span style="color:#808030; ">(</span>db<span style="color:#808030; ">,</span> name<span style="color:#808030; ">)</span> <span style="color:#800080; ">{</span>
+                <span style="color:#800000; font-weight:bold; ">return</span> db<span style="color:#808030; ">.</span>view_user_address<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#808030; ">.</span>where<span style="color:#808030; ">(</span>o <span style="color:#808030; ">=</span><span style="color:#808030; ">&gt;</span> o<span style="color:#808030; ">.</span>name <span style="color:#808030; ">===</span> name<span style="color:#808030; ">)</span><span style="color:#808030; ">.</span>select<span style="color:#808030; ">(</span>o <span style="color:#808030; ">=</span><span style="color:#808030; ">&gt;</span> o<span style="color:#808030; ">.</span>address<span style="color:#808030; ">)</span><span style="color:#808030; ">.</span><span style="color:#800000; font-weight:bold; ">toArray</span><span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
             <span style="color:#800080; ">}</span>
         <span style="color:#800080; ">}</span>
-    <span style="color:#800080; ">}</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+    <span style="color:#800080; ">}</span>
+<span style="color:#800080; ">}</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
     </pre>
+    
 
 </body>
 
