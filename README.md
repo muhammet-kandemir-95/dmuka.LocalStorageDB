@@ -200,7 +200,7 @@ Bu değer "[dmuka.LocalStorageDB.iQueryable](#dmukalocalstoragedbiqueryable)" ol
 
 #### Example Usage 
 ```javascript
-var result = db.view_user_address.where(o => o.name === "Muhammed").toArray();
+var result = db.view_user_address().where(o => o.name === "Muhammed").toArray();
 ```
 
 ### db["functionName"], db.functionName
