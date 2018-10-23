@@ -122,17 +122,83 @@ var db = new dmuka.LocalStorageDB({
 ## dmuka.LocalStorageDB Public Variables
 
 ### db["tableName"], db.tableName
-Bu değer "[dmuka.LocalStorageDB.iQueryable](#dmukalocalstoragedbiqueryable)" olarak dönecektir.
+Bu değer "[dmuka.LocalStorageDB.iQueryable](#dmukalocalstoragedbiqueryable)" olarak dönecektir. Ekstradan fonksiyonlara sahiptir.
 
-###### Example Usage 
+#### Public Functions
+
+##### insert
 ```javascript
-var result = db.users.where(o => o.name === "Muhammed").toArray();
+function (row)
+```
+ Row add to table.
+ 
+###### Example Usage
+```javascript
+db.users.insert({ user_id: "b4e365c0-b008-40e0-bb51-18495484a67c", name: "Muhammed", surname: "Kandemir" });
+```
+
+##### insertRange
+```javascript
+function (rows)
+```
+ Rows add to table.
+ 
+###### Example Usage
+```javascript
+db.users.insert([
+ { user_id: "b4e365c0-b008-40e0-bb51-18495484a67c", name: "Muhammed", surname: "Kandemir" },
+ { user_id: "f85017cd-db46-4b9d-8625-ed73bb4f90a1", name: "Baran", surname: "Altay" }
+]);
+```
+
+##### delete
+```javascript
+function (fnc)
+```
+ Row delete on table.
+ 
+###### Example Usage
+```javascript
+db.users.delete(o => o.user_id === "b4e365c0-b008-40e0-bb51-18495484a67c");
+```
+
+##### deleteRange
+```javascript
+function (fnc)
+```
+ Rows delete on table.
+ 
+###### Example Usage
+```javascript
+db.users.deleteRange(o => o.user_id === "b4e365c0-b008-40e0-bb51-18495484a67c");
+```
+
+##### clear
+```javascript
+function ()
+```
+ All rows clear on table.
+ 
+###### Example Usage
+```javascript
+db.users.clear();
+```
+
+##### saveChanges
+```javascript
+function ()
+```
+ Table save to local storage.
+ 
+###### Example Usage
+```javascript
+db.users.saveChanges();
 ```
 
 ### db["viewName"], db.viewName
 Bu değer "[dmuka.LocalStorageDB.iQueryable](#dmukalocalstoragedbiqueryable)" olarak dönecektir.
 
-###### Example Usage 
+#### Example Usage 
 ```javascript
 var result = db.view_user_address.where(o => o.name === "Muhammed").toArray();
 ```
@@ -140,7 +206,7 @@ var result = db.view_user_address.where(o => o.name === "Muhammed").toArray();
 ### db["functionName"], db.functionName
 Bu değer herhangi bir değişken türünde dönecektir.
 
-###### Example Usage 
+#### Example Usage 
 ```javascript
 var result = db.fnc_get_user_by_name("Muhammed");
 ```
