@@ -66,7 +66,7 @@ dmuka.LocalStorageDB = function (parameters) {
             };
 
             // Added insert function for much row
-            public[tableName].insertRange = function (row) {
+            public[tableName].insertRange = function (rows) {
                 for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
                     tableData.push(rows[rowIndex]);
                 }
