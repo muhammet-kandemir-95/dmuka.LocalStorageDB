@@ -2,10 +2,10 @@
 
  Demo : http://www.bilgisayarafisildayanadam.com/dmuka.LocalStorageDB/
  
- Bu proje ile tarayıcı tarafında kendi veritabanınızı yönetebilirsiniz. Verilerin tamamı sadece LocalStorage üzerinde saklanmaktadır. Linq sorguları ile erişim sağlanmaktadır. Örnek kullanımlar;
+ You can manage database on client side using this library. The database only save to LocalStorage. If you want access to the database ten you have to use Linq queries. You can use this library for some scenarios. For instance;
  
- * Kullanıcı bazlı ayarların saklanması
- * Wizard kullanılan sayfalardaki verilerin saklanması
+ * Saving user's option
+ * Saving last screen's data
  
 ## Create Instance
 
@@ -122,7 +122,7 @@ var db = new dmuka.LocalStorageDB({
 ## dmuka.LocalStorageDB Public Variables
 
 ### db["tableName"], db.tableName
-Bu değer "[dmuka.LocalStorageDB.iQueryable](#dmukalocalstoragedbiqueryable)" olarak dönecektir. Ekstradan fonksiyonlara sahiptir.
+This value is "[dmuka.LocalStorageDB.iQueryable](#dmukalocalstoragedbiqueryable)". However it has more functions;
 
 #### Public Functions
 
@@ -196,7 +196,7 @@ db.users.saveChanges();
 ```
 
 ### db["viewName"], db.viewName
-Bu değer "[dmuka.LocalStorageDB.iQueryable](#dmukalocalstoragedbiqueryable)" olarak dönecektir.
+This value is "[dmuka.LocalStorageDB.iQueryable](#dmukalocalstoragedbiqueryable)".
 
 #### Example Usage 
 ```javascript
@@ -204,7 +204,7 @@ var result = db.view_user_address().where(o => o.name === "Muhammed").toArray();
 ```
 
 ### db["functionName"], db.functionName
-Bu değer herhangi bir değişken türünde dönecektir.
+This value will be any type.
 
 #### Example Usage 
 ```javascript
