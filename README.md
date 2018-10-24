@@ -2,7 +2,7 @@
 
  Demo : http://www.bilgisayarafisildayanadam.com/dmuka.LocalStorageDB/
  
- You can manage database on client side using this library. The database only save to LocalStorage. If you want access to the database ten you have to use Linq queries. You can use this library for some scenarios. For instance;
+ You can manage database on client side using this library. The database only save to LocalStorage. If you want access to the database then you have to use Linq queries. You can use this library for some scenarios. For instance;
  
  * Saving user's option
  * Saving last screen's data
