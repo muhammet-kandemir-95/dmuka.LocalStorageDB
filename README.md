@@ -1,6 +1,6 @@
 # dmuka.LocalStorageDB
 
- Demo : http://www.bilgisayarafisildayanadam.com/dmuka.LocalStorageDB/
+ Demo : https://muhammet-kandemir-95.github.io/dmuka.LocalStorageDB/
  
  You can manage database on client side using this library. The database only save to LocalStorage. If you want access to the database then you have to use Linq queries. You can use this library for some scenarios. For instance;
  
